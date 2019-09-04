@@ -1,23 +1,31 @@
 package com.workshop;
 
-public class LineHandler extends TelephonyEngine{
+public class LineHandler extends TelephonyNetworkDispatcher{
+
+    TelephonyCall myCall = new TelephonyCall();
 
     private boolean isLineAvailable = false;
 
     private boolean lineSynchronized = false;
 
-    public boolean checkLineAvailability(int channel){
-        if(checkChannelAvailability(channel)){
-            isLineAvailable = true;
-            }
+    public void setTelephonyLine(){
+        myCall.setLineId(45);
+    }
+
+
+    public boolean isLineAvailable(){
+
+        if(withNetworkAssociated() && isLineSynchronized()){
+            isLineAvailable = true;}
         else{
             isLineAvailable = false;}
+
         return isLineAvailable;
     }
 
-    public boolean isLineSynchronized(int line){
+    public boolean isLineSynchronized(){
 
-        if(line%3 == 0){
+        if((myCall.getLineId() + myCall.getChannelId())%3 == 0){
             return lineSynchronized = true;}
         else
             return  lineSynchronized = false;}
